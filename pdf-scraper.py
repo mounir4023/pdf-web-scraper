@@ -6,6 +6,7 @@ import urllib
 import wget
 
 def scraphtml(single_url):
+    print("\n\n------------ Scraping :  "+single_url)
     links_list=[]
     response = request.urlopen(single_url).read()
     soup= BeautifulSoup(response, "html.parser")
@@ -13,6 +14,7 @@ def scraphtml(single_url):
     return links_list
 
 def html_to_link(links_list):
+    print("------------ Exctracting links of pdfs : ")
     links=[]
     for i in links_list:
         links.append(re.findall(r'http.+pdf',str(i)))
@@ -20,6 +22,8 @@ def html_to_link(links_list):
 
 def download_from_links(links):
     for l in links:
+        doc_name=re.sub(r'.+?\/+','',l[0])
+        print("Downloading : "+ doc_name)
         wget.download(l[0])
 
 def final_download_single_link(single_url):
