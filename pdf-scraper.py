@@ -5,12 +5,8 @@ import os
 import urllib
 import wget
 
-#import list of urls
-url=open("listurls.txt",'r')
-links_list=[]
-
 def scraphtml(single_url):
-    print("ok")
+    links_list=[]
     response = request.urlopen(single_url).read()
     soup= BeautifulSoup(response, "html.parser")
     links_list.append( soup.find_all('a', href=re.compile(r'(.pdf)')))
@@ -24,7 +20,7 @@ def html_to_link(links_list):
 
 def download_from_links(links):
     for l in links:
-        wget.download(l)
+        wget.download(l[0])
 
 def final_download_single_link(single_url):
     links_list=scraphtml(single_url)
@@ -34,4 +30,12 @@ def final_download_single_link(single_url):
 def final_download_multiple_link(list_urls):
     for l in list_urls:
         final_download_single_link(l)
+
+def main():
+    #import list of urls
+    url=open("listurls.txt",'r')
+    final_download_multiple_link(url)
+  
+if __name__== "__main__":
+  main()
  
